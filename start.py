@@ -70,7 +70,7 @@ class TApp(arcade.Window):
     def setUserVars(self):
         """ Переменные описывающие состояние пользователя """
         # Номер аватара, который выбрал пользователь
-        self.userAvatar = 1
+        self.userAvatar = 0
         # Количество правильных ответов
         self.userGoodAnswers = 0
         print(self.userGoodAnswers, self.userAvatar)
@@ -83,15 +83,14 @@ class TApp(arcade.Window):
         self.aboutDescription1 = "описание программы 1"
         self.aboutDescription2 = "описание программы 2"
         self.aboutDescription3 = "описание программы 3"
-        self.aboutClient1 = "о заказчике 1"
-        self.aboutClient2 = "о заказчике 2"
+        self.aboutClient1 = "Гобу Мурманской области центр психолого-педагогической,"
+        self.aboutClient2 = "медицинской и социальной помощи"
         self.aboutClient3 = "о заказчике 3"
-        self.aboutDeveloper1 = "Сумина Дарья"
-        self.aboutDeveloper2 = "Олег Иванович Ляш"
-        self.aboutDeveloper3 = "Еще кто-н"
-        self.aboutLogo1 = arcade.Sprite(self.logoPath + "magu-masu_logo 06_white.png", 1)
-        self.aboutLogo2 = arcade.Sprite(self.logoPath + "LabVS_logo_white.png",0.5)
-        self.aboutLogo3 = arcade.Sprite(self.logoPath + "cmmpk_MO.png", 0.3)
+        self.aboutDeveloper1 = "Дарья Сумина (студентка 4 курса, группа МКН)"
+        self.aboutDeveloper2 = "Олег Иванович Ляш (руководитель)"
+        #self.aboutLogo1 = arcade.Sprite(self.logoPath + "magu-masu_logo 06_white.png", 1)
+        #self.aboutLogo2 = arcade.Sprite(self.logoPath + "LabVS_logo_white.png",0.5)
+        self.aboutLogo1 = arcade.Sprite(self.logoPath + "cmmpk_MO.png", 0.4)
 
     def setFonts(self):
         # шрифты отсюда https://fonts.google.com/?selection.family=Russo+One&subset=cyrillic&sort=popularity
@@ -383,8 +382,8 @@ class TApp(arcade.Window):
 
     def drawState4(self):
         # О программе
-        x = self.SCREEN_WIDTH // 2
-        lineHeight = 40
+        x = self.SCREEN_WIDTH // 2.5
+        lineHeight = 50
         # ------------------------
         text = "О программе"
         color = self.titlecolor
@@ -395,34 +394,36 @@ class TApp(arcade.Window):
         text =  self.aboutDescription1
         color = self.subtitlecolor
         text_size = 20
-        x = self.SCREEN_WIDTH // 2
+        x = self.SCREEN_WIDTH // 2.3
         y = self.SCREEN_HEIGHT  - 3*lineHeight
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font)
 
         text =  self.aboutDescription2
         color = self.subtitlecolor
         text_size = 20
-        x = self.SCREEN_WIDTH // 2
+        x = self.SCREEN_WIDTH // 2.3
         y = self.SCREEN_HEIGHT  - 4*lineHeight
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font)
 
         # ------------------------
-        text = "Заказчик"
+        text = "Заказчик:"
         color = self.titlecolor
         text_size = 20
-        x = self.SCREEN_WIDTH // 2
+        x = self.SCREEN_WIDTH // 2.2
         y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 3
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font)
 
         text = self.aboutClient1
         color = self.subtitlecolor
         text_size = 20
+        x = self.SCREEN_WIDTH // 3.9
         y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 3 - 40
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font)
 
         text = self.aboutClient2
         color = self.subtitlecolor
         text_size = 20
+        x = self.SCREEN_WIDTH // 2.9
         y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 3 - 80
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font)
 
@@ -430,33 +431,35 @@ class TApp(arcade.Window):
         text = "Разработчики: "
         color = self.titlecolor
         text_size = 20
+        x = self.SCREEN_WIDTH // 2.3
         y = self.SCREEN_HEIGHT - self.SCREEN_HEIGHT // 2
         arcade.draw_text(text, x, y, color, text_size, anchor_y="center", font_name=self.font)
 
         text = self.aboutDeveloper1
         color = self.subtitlecolor
         text_size = 20
-        x = self.SCREEN_WIDTH // 2
+        x = self.SCREEN_WIDTH // 3.1
         y = self.SCREEN_HEIGHT - self.SCREEN_HEIGHT // 2 - 40
         arcade.draw_text(text, x, y, color, text_size,  anchor_y="center", font_name=self.font)
 
         text = self.aboutDeveloper2
         color = self.subtitlecolor
         text_size = 20
+        x = self.SCREEN_WIDTH // 2.8
         y = self.SCREEN_HEIGHT - self.SCREEN_HEIGHT // 2 - 80
         arcade.draw_text(text, x, y, color, text_size, anchor_y="center", font_name=self.font)
 
-        self.aboutLogo1.center_x = (self.SCREEN_WIDTH // 2) // 2
+        '''self.aboutLogo1.center_x = (self.SCREEN_WIDTH // 2) // 2
         self.aboutLogo1.center_y = 10 + self.aboutLogo2.height
         self.aboutLogo1.draw()
 
         self.aboutLogo2.center_x = (self.SCREEN_WIDTH // 2) + (self.SCREEN_WIDTH // 2) // 2
         self.aboutLogo2.center_y = 10 + self.aboutLogo2.height
-        self.aboutLogo2.draw()
+        self.aboutLogo2.draw()'''
 
-        self.aboutLogo3.center_x = self.SCREEN_WIDTH // 2
-        self.aboutLogo3.center_y = 10 + self.aboutLogo2.height
-        self.aboutLogo3.draw()
+        self.aboutLogo1.center_x = self.SCREEN_WIDTH // 2
+        self.aboutLogo1.center_y = 10 + self.aboutLogo1.height
+        self.aboutLogo1.draw()
 
     def drawState5(self):
         # Выход из программы
