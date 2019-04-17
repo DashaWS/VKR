@@ -130,6 +130,7 @@ class TApp(arcade.Window):
         self.Menu[6] = "Игра Детектив"
         self.Menu[7] = "Игра Подбери маску"
         self.Menu[8] = "Игра Пятнашки"
+        self.Menu[9] = "Дальше"
         self.Menu[99] = "Пауза"
 
     def loadAvatars(self):
@@ -153,26 +154,29 @@ class TApp(arcade.Window):
             # Рисуем менюшку стартовую менюшку
             self.drawState0()
         elif self.state == 1:
-            # Рисуем менюшку стартовую менюшку
+            # Рисуем выбор набора карточек
             self.drawState1()
         elif self.state == 2:
-            # Рисуем менюшку стартовую менюшку
+            # Рисуем выбор аватара
             self.drawState2()
         elif self.state == 3:
-            # Рисуем менюшку стартовую менюшку
+            # Рисуем меню игр
             self.drawState3()
         elif self.state == 4:
-            # Рисуем менюшку стартовую менюшку
+            # Рисуем о программе
             self.drawState4()
         elif self.state == 6:
-            # Рисуем менюшку стартовую менюшку
+            # Рисуем игру Детектив
             self.drawState6()
         elif self.state == 7:
-            # Рисуем менюшку стартовую менюшку
+            # Рисуем игру Подбери маску
             self.drawState7()
         elif self.state == 8:
-            # Рисуем менюшку стартовую менюшку
+            # Рисуем игру Пятнашки
             self.drawState8()
+        elif self.state == 9:
+            # Рисуем сл игру
+            self.drawState7()
         elif self.state == 5:
             # Выход
             try:
@@ -434,6 +438,30 @@ class TApp(arcade.Window):
             self.imgDetective1.center_y = 0
             self.imgDetectives1.append(self.imgDetective1)
 
+        #-------------
+
+        # Дальше
+        self.MenuFirst2 = 9
+        self.MenuLasti = 1
+
+        mx = self.mouseX
+        my = self.mouseY
+        width = 400
+        height=15
+        self.MenuItemSelected_2 = -1
+
+        for i in range(0,self.MenuLasti):
+            text = self.Menu[self.MenuFirst2+i]
+            text_size = 35
+            x = self.SCREEN_WIDTH // 1.3
+            y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 1.2
+            if my>y-height and my<y+height and mx>x-width//2 and mx<x+width//2:
+                color = self.menucolorselected
+                self.MenuItemSelected = self.MenuFirst2+i
+            else:
+                color = self.menucolor
+            arcade.draw_text(text, x, y,color, text_size, font_name = self.font_title)
+
         #------------------------------
 
         # Вывод конкретного спрайта
@@ -476,7 +504,6 @@ class TApp(arcade.Window):
                     #self.userAvatar = i
                     print(otvet)
 
-        
 
     def drawState7(self):
         # Игра Подбери маску
@@ -536,8 +563,10 @@ class TApp(arcade.Window):
                 quit()
             elif self.state > 0 and self.state < 5:
                 self.state=0
-            elif self.state > 5 and self.state < 9:
+            elif self.state > 5 and self.state < 15:
                 self.state=3
+            #elif self.state == 9:
+            #    self.state=6
 
     def on_mouse_motion(self, x, y, dx, dy):
         """ Перемещение мышки """
@@ -563,7 +592,7 @@ class TApp(arcade.Window):
                 self.close()
                 quit()
 
-            if self.MenuItemSelected>0 and self.MenuItemSelected <=8:
+            if self.MenuItemSelected>0 and self.MenuItemSelected <=15:
                 print("Перключаемся в состояние %s"%(self.MenuItemSelected))
                 self.state = self.MenuItemSelected
 
