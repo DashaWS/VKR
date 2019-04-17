@@ -59,7 +59,10 @@ class TApp(arcade.Window):
         self.logoPath = self.imgPath + "logo/"
         self.avatarPath = self.imgPath+"avatars/"
         self.cardPath = self.imgPath+"cards/"
-        self.detectivePath = self.imgPath+"cards/detective/2/"
+        self.detectivePath = self.imgPath+"cards/detective/"
+        self.detectivePath1=self.detectivePath+"1/"
+        self.detectivePath2=self.detectivePath+"2/"
+        self.detectivePath3=self.detectivePath+"card/"
         self.soundPath = "sounds/"
         self.fontPath = "fonts/"
         self.savePath = "save"
@@ -73,6 +76,8 @@ class TApp(arcade.Window):
         print(self.userGoodAnswers, self.userAvatar)
         # Количество не правильных ответов
         self.userBadAnswers = 0
+        #Номер выбранного набора карточек
+        self.userChoiceCards = 0
 
     def setAbout(self):
         self.aboutDescription1 = "описание программы 1"
@@ -220,7 +225,67 @@ class TApp(arcade.Window):
         text_size = 44
         x = self.SCREEN_WIDTH // 3
         y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 6
-        arcade.draw_text(text,x, y,color, text_size, font_name = self.font_title)
+        arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font_title)
+
+        self.imgAvatars.sprite_list[self.userAvatar].center_x = self.imgAvatars.sprite_list[self.userAvatar].width
+        self.imgAvatars.sprite_list[self.userAvatar].center_y = self.SCREEN_HEIGHT - self.imgAvatars.sprite_list[self.userAvatar].height
+        self.imgAvatars.sprite_list[self.userAvatar].draw()
+
+        """ Загрузка картинок """
+        files1 = os.listdir(self.detectivePath3)
+
+        self.imgCards1 = arcade.SpriteList()
+        
+
+        for i in files1:
+            self.imgCard1 = arcade.Sprite(self.detectivePath3+i, 1)
+            self.imgCard1.width = 100
+            self.imgCard1.height = 200
+            self.imgCard1.center_x = 0
+            self.imgCard1.center_y = 0
+            self.imgCards1.append(self.imgCard1)
+
+        # Вывод конкретного спрайта
+        w=self.imgCards1.sprite_list[1].width
+        h=self.imgCards1.sprite_list[1].height
+        counter = 2
+        s = 20
+        x = self.SCREEN_WIDTH // 2 - (counter * w) //2.3
+        y = self.SCREEN_HEIGHT // 2
+        for i in range(0,len(self.imgCards1.sprite_list)):
+            self.imgCards1.sprite_list[i].center_x = x
+            x += w + s
+            self.imgCards1.sprite_list[i].center_y = y
+            counter -=1
+            if counter <=0:
+                counter = 5
+                x = self.SCREEN_WIDTH // 2 - (counter * w) // 2.9
+                y += h + s
+
+            self.imgCards1.sprite_list[i].draw()
+            # Определяем попадание курсора на набор карточек
+            bottom =self.mouseY > self.imgCards1.sprite_list[i].center_y - self.imgCards1.sprite_list[i].height // 2
+            top = self.mouseY < self.imgCards1.sprite_list[i].center_y + self.imgCards1.sprite_list[i].height // 2
+
+            left = self.mouseX > self.imgCards1.sprite_list[i].center_x - self.imgCards1.sprite_list[i].width // 2
+            right = self.mouseX < self.imgCards1.sprite_list[i].center_x + self.imgCards1.sprite_list[i].width // 2
+
+            if (bottom and top) and (left and right):
+                arcade.draw_rectangle_outline(self.imgCards1.sprite_list[i].center_x,self.imgCards1.sprite_list[i].center_y,self.imgCards1.sprite_list[i].width,self.imgCards1.sprite_list[i].height,color=arcade.color.RED)
+                if self.isMouseDown:
+                    self.userChoiceCards=i
+                    #otvet=i
+                    """if i==0:
+                        print('dthyj')
+                        self.userGoodAnswers+=1
+                        print(self.userGoodAnswers)
+                    else:
+                        print('----')
+                        self.userBadAnswers+=1
+                        print(self.userBadAnswers)"""
+                    #self.userAvatar = i
+        #print(self.userChoiceCards)
+        
 
     def drawState2(self):
         # Выбор аватара
@@ -416,7 +481,17 @@ class TApp(arcade.Window):
         self.imgAvatars.sprite_list[self.userAvatar].center_y = self.SCREEN_HEIGHT - self.imgAvatars.sprite_list[self.userAvatar].height
         self.imgAvatars.sprite_list[self.userAvatar].draw()
 
-        text = "Найти мальчика, который получил подарок"
+        #print(self.userChoiceCards)
+
+        if self.userChoiceCards==0:
+            text = "Найти девочку, которая получила подарок"
+            files1 = os.listdir(self.detectivePath1)
+        elif self.userChoiceCards == 1:
+            text = "Найти мальчика, который получил подарок"
+            files1 = os.listdir(self.detectivePath2)
+        else:
+            text = "Найти девочку, которая получила подарок"
+            files1 = os.listdir(self.detectivePath1)
         color = arcade.color.WHITE
         text_size = 33
         x = self.SCREEN_WIDTH // 4.2
@@ -426,12 +501,17 @@ class TApp(arcade.Window):
         #------------------------------
 
         """ Загрузка картинок """
-        files1 = os.listdir(self.detectivePath)
+        #files1 = os.listdir(self.detectivePath2)
 
         self.imgDetectives1 = arcade.SpriteList()
 
         for i in files1:
-            self.imgDetective1 = arcade.Sprite(self.detectivePath+i, 1)
+            if self.userChoiceCards==0:
+                self.imgDetective1 = arcade.Sprite(self.detectivePath1+i, 1)
+            elif self.userChoiceCards == 1:
+                self.imgDetective1 = arcade.Sprite(self.detectivePath2+i, 1)
+            else:
+                self.imgDetective1 = arcade.Sprite(self.detectivePath1+i, 1)
             self.imgDetective1.width = 100
             self.imgDetective1.height = 200
             self.imgDetective1.center_x = 0
