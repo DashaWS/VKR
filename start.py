@@ -63,6 +63,8 @@ class TApp(arcade.Window):
         self.detectivePath1=self.detectivePath+"1/"
         self.detectivePath2=self.detectivePath+"2/"
         self.detectivePath3=self.detectivePath+"card/"
+        self.detectivePath4=self.detectivePath+"3/"
+        self.detectivePath5=self.detectivePath+"4/"
         self.soundPath = "sounds/"
         self.fontPath = "fonts/"
         self.savePath = "save"
@@ -80,16 +82,15 @@ class TApp(arcade.Window):
         self.userChoiceCards = 0
 
     def setAbout(self):
-        self.aboutDescription1 = "описание программы 1"
-        self.aboutDescription2 = "описание программы 2"
-        self.aboutDescription3 = "описание программы 3"
+        self.aboutDescription1 = "Программа предназначена для"
+        self.aboutDescription2 = "диагностики психологических особенностей детей"
         self.aboutClient1 = "Гобу Мурманской области центр психолого-педагогической,"
         self.aboutClient2 = "медицинской и социальной помощи"
         self.aboutClient3 = "о заказчике 3"
         self.aboutDeveloper1 = "Дарья Сумина (студентка 4 курса, группа МКН)"
         self.aboutDeveloper2 = "Олег Иванович Ляш (руководитель)"
         #self.aboutLogo1 = arcade.Sprite(self.logoPath + "magu-masu_logo 06_white.png", 1)
-        #self.aboutLogo2 = arcade.Sprite(self.logoPath + "LabVS_logo_white.png",0.5)
+        self.aboutLogo2 = arcade.Sprite(self.detectivePath4 + "1.jpg",0.6)
         self.aboutLogo1 = arcade.Sprite(self.logoPath + "cmmpk_MO.png", 0.4)
 
     def setFonts(self):
@@ -135,6 +136,9 @@ class TApp(arcade.Window):
         self.Menu[7] = "Игра Подбери маску"
         self.Menu[8] = "Игра Пятнашки"
         self.Menu[9] = "Дальше"
+        self.Menu[10] = "Игра Детектив"
+        self.Menu[11] = "Игра Детектив"
+       
         self.Menu[99] = "Пауза"
 
     def loadAvatars(self):
@@ -179,6 +183,12 @@ class TApp(arcade.Window):
             # Рисуем игру Пятнашки
             self.drawState8()
         elif self.state == 9:
+            # Рисуем сл игру
+            self.drawState9()
+        elif self.state == 10:
+            # Рисуем сл игру
+            self.drawState10()
+        elif self.state == 11:
             # Рисуем сл игру
             self.drawState7()
         elif self.state == 5:
@@ -394,14 +404,14 @@ class TApp(arcade.Window):
         text =  self.aboutDescription1
         color = self.subtitlecolor
         text_size = 20
-        x = self.SCREEN_WIDTH // 2.3
+        x = self.SCREEN_WIDTH // 2.6
         y = self.SCREEN_HEIGHT  - 3*lineHeight
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font)
 
         text =  self.aboutDescription2
         color = self.subtitlecolor
         text_size = 20
-        x = self.SCREEN_WIDTH // 2.3
+        x = self.SCREEN_WIDTH // 3.4
         y = self.SCREEN_HEIGHT  - 4*lineHeight
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font)
 
@@ -472,7 +482,7 @@ class TApp(arcade.Window):
 
     def drawState6(self):
         otvet=-1
-        # Игра Детектив
+        # Игра Детектив 1
         text = "Игра Детектив"
         color = arcade.color.WHITE
         text_size = 38
@@ -586,16 +596,318 @@ class TApp(arcade.Window):
                         print(self.userBadAnswers)"""
                     #self.userAvatar = i
                     print(otvet)
+                if i==0:
+                    self.userGoodAnswers+=1
+                else:
+                    self.userBadAnswers+=1
+
+    def drawState9(self):
+        #print("ghjghj", self.userBadAnswers)
+        otvet=-1
+        # Игра Детектив 2
+        text = "Игра Детектив"
+        color = arcade.color.WHITE
+        text_size = 38
+        x = self.SCREEN_WIDTH // 2.7
+        y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 12
+        arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font_title)
+
+        self.imgAvatars.sprite_list[self.userAvatar].center_x = self.imgAvatars.sprite_list[self.userAvatar].width
+        self.imgAvatars.sprite_list[self.userAvatar].center_y = self.SCREEN_HEIGHT - self.imgAvatars.sprite_list[self.userAvatar].height
+        self.imgAvatars.sprite_list[self.userAvatar].draw()
+
+        #print(self.userChoiceCards)
+
+        if self.userChoiceCards==0:
+            text = "Найти девочку, у которой потерялся щенок"
+            files1 = os.listdir(self.detectivePath1)
+        elif self.userChoiceCards == 1:
+            text = "Найти мальчика, у  которого потерялся щенок"
+            files1 = os.listdir(self.detectivePath2)
+        else:
+            text = "Найти девочку, у которой потерялся щенок"
+            files1 = os.listdir(self.detectivePath1)
+        color = arcade.color.WHITE
+        text_size = 33
+        x = self.SCREEN_WIDTH // 4.2
+        y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 6
+        arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font_title)
+
+        #------------------------------
+
+        """ Загрузка картинок """
+        #files1 = os.listdir(self.detectivePath2)
+
+        self.imgDetectives2 = arcade.SpriteList()
+
+        for i in files1:
+            if self.userChoiceCards==0:
+                self.imgDetective2 = arcade.Sprite(self.detectivePath1+i, 1)
+            elif self.userChoiceCards == 1:
+                self.imgDetective2 = arcade.Sprite(self.detectivePath2+i, 1)
+            else:
+                self.imgDetective2 = arcade.Sprite(self.detectivePath1+i, 1)
+            self.imgDetective2.width = 100
+            self.imgDetective2.height = 200
+            self.imgDetective2.center_x = 0
+            self.imgDetective2.center_y = 0
+            self.imgDetectives2.append(self.imgDetective1)
+
+        #-------------
+
+        # Дальше
+        self.MenuFirst2 = 9
+        self.MenuLasti = 1
+
+        mx = self.mouseX
+        my = self.mouseY
+        width = 400
+        height=15
+        self.MenuItemSelected_2 = -1
+
+        for i in range(0,self.MenuLasti):
+            text = self.Menu[self.MenuFirst2+i]
+            text_size = 35
+            x = self.SCREEN_WIDTH // 1.3
+            y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 1.2
+            if my>y-height and my<y+height and mx>x-width//2 and mx<x+width//2:
+                color = self.menucolorselected
+                self.MenuItemSelected = self.MenuFirst2+i+1
+            else:
+                color = self.menucolor
+            arcade.draw_text(text, x, y,color, text_size, font_name = self.font_title)
+
+        #------------------------------
+
+        # Вывод конкретного спрайта
+        w=self.imgDetectives1.sprite_list[1].width
+        h=self.imgDetectives1.sprite_list[1].height
+        counter = 4
+        s = 20
+        x = self.SCREEN_WIDTH // 2 - (counter * w) //2.3
+        y = self.SCREEN_HEIGHT // 3
+        for i in range(0,len(self.imgDetectives1.sprite_list)):
+            self.imgDetectives1.sprite_list[i].center_x = x
+            x += w + s
+            self.imgDetectives1.sprite_list[i].center_y = y
+            counter -=1
+            if counter <=0:
+                counter = 5
+                x = self.SCREEN_WIDTH // 2 - (counter * w) // 2.9
+                y += h + s
+
+            self.imgDetectives1.sprite_list[i].draw()
+            # Определяем попадание курсора на аватар
+            bottom =self.mouseY > self.imgDetectives1.sprite_list[i].center_y - self.imgDetectives1.sprite_list[i].height // 2
+            top = self.mouseY < self.imgDetectives1.sprite_list[i].center_y + self.imgDetectives1.sprite_list[i].height // 2
+
+            left = self.mouseX > self.imgDetectives1.sprite_list[i].center_x - self.imgDetectives1.sprite_list[i].width // 2
+            right = self.mouseX < self.imgDetectives1.sprite_list[i].center_x + self.imgDetectives1.sprite_list[i].width // 2
+
+            if (bottom and top) and (left and right):
+                arcade.draw_rectangle_outline(self.imgDetectives1.sprite_list[i].center_x,self.imgDetectives1.sprite_list[i].center_y,self.imgDetectives1.sprite_list[i].width,self.imgDetectives1.sprite_list[i].height,color=arcade.color.RED)
+                if self.isMouseDown:
+                    otvet=i
+                    """if i==0:
+                        print('dthyj')
+                        self.userGoodAnswers+=1
+                        print(self.userGoodAnswers)
+                    else:
+                        print('----')
+                        self.userBadAnswers+=1
+                        print(self.userBadAnswers)"""
+                    #self.userAvatar = i
+                    print(otvet)
+
+    def drawState10(self):
+        print("ghjghj", self.userBadAnswers)
+        otvet=-1
+        # Игра Детектив 3
+        text = "Игра Детектив"
+        color = arcade.color.WHITE
+        text_size = 38
+        x = self.SCREEN_WIDTH // 2.7
+        y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 12
+        arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font_title)
+
+        self.imgAvatars.sprite_list[self.userAvatar].center_x = self.imgAvatars.sprite_list[self.userAvatar].width
+        self.imgAvatars.sprite_list[self.userAvatar].center_y = self.SCREEN_HEIGHT - self.imgAvatars.sprite_list[self.userAvatar].height
+        self.imgAvatars.sprite_list[self.userAvatar].draw()
+
+        #print(self.userChoiceCards)
+
+        if self.userChoiceCards==0:
+            text = "Найти девочку, которая уже пообедала"
+            files1 = os.listdir(self.detectivePath1)
+        elif self.userChoiceCards == 1:
+            text = "Найти мальчика, который уже пообедал"
+            files1 = os.listdir(self.detectivePath2)
+        else:
+            text = "Найти девочку, которая уже пообедала"
+            files1 = os.listdir(self.detectivePath1)
+        color = arcade.color.WHITE
+        text_size = 33
+        x = self.SCREEN_WIDTH // 4.2
+        y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 6
+        arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font_title)
+
+        #------------------------------
+
+        """ Загрузка картинок """
+        #files1 = os.listdir(self.detectivePath2)
+
+        self.imgDetectives2 = arcade.SpriteList()
+
+        for i in files1:
+            if self.userChoiceCards==0:
+                self.imgDetective1 = arcade.Sprite(self.detectivePath1+i, 1)
+            elif self.userChoiceCards == 1:
+                self.imgDetective1 = arcade.Sprite(self.detectivePath2+i, 1)
+            else:
+                self.imgDetective2 = arcade.Sprite(self.detectivePath1+i, 1)
+            self.imgDetective2.width = 100
+            self.imgDetective2.height = 200
+            self.imgDetective2.center_x = 0
+            self.imgDetective2.center_y = 0
+            self.imgDetectives2.append(self.imgDetective2)
+
+        #-------------
+
+        # Дальше
+        self.MenuFirst2 = 9
+        self.MenuLasti = 1
+
+        mx = self.mouseX
+        my = self.mouseY
+        width = 400
+        height=15
+        self.MenuItemSelected_2 = -1
+
+        for i in range(0,self.MenuLasti):
+            text = self.Menu[self.MenuFirst2+i]
+            text_size = 35
+            x = self.SCREEN_WIDTH // 1.3
+            y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 1.2
+            if my>y-height and my<y+height and mx>x-width//2 and mx<x+width//2:
+                color = self.menucolorselected
+                self.MenuItemSelected = self.MenuFirst2+2
+            else:
+                color = self.menucolor
+            arcade.draw_text(text, x, y,color, text_size, font_name = self.font_title)
+
+        #------------------------------
+
+        # Вывод конкретного спрайта
+        w=self.imgDetectives1.sprite_list[1].width
+        h=self.imgDetectives1.sprite_list[1].height
+        counter = 4
+        s = 20
+        x = self.SCREEN_WIDTH // 2 - (counter * w) //2.3
+        y = self.SCREEN_HEIGHT // 3
+        for i in range(0,len(self.imgDetectives1.sprite_list)):
+            self.imgDetectives1.sprite_list[i].center_x = x
+            x += w + s
+            self.imgDetectives1.sprite_list[i].center_y = y
+            counter -=1
+            if counter <=0:
+                counter = 5
+                x = self.SCREEN_WIDTH // 2 - (counter * w) // 2.9
+                y += h + s
+
+            self.imgDetectives1.sprite_list[i].draw()
+            # Определяем попадание курсора на аватар
+            bottom =self.mouseY > self.imgDetectives1.sprite_list[i].center_y - self.imgDetectives1.sprite_list[i].height // 2
+            top = self.mouseY < self.imgDetectives1.sprite_list[i].center_y + self.imgDetectives1.sprite_list[i].height // 2
+
+            left = self.mouseX > self.imgDetectives1.sprite_list[i].center_x - self.imgDetectives1.sprite_list[i].width // 2
+            right = self.mouseX < self.imgDetectives1.sprite_list[i].center_x + self.imgDetectives1.sprite_list[i].width // 2
+
+            if (bottom and top) and (left and right):
+                arcade.draw_rectangle_outline(self.imgDetectives1.sprite_list[i].center_x,self.imgDetectives1.sprite_list[i].center_y,self.imgDetectives1.sprite_list[i].width,self.imgDetectives1.sprite_list[i].height,color=arcade.color.RED)
+                if self.isMouseDown:
+                    otvet=i
+                    """if i==0:
+                        print('dthyj')
+                        self.userGoodAnswers+=1
+                        print(self.userGoodAnswers)
+                    else:
+                        print('----')
+                        self.userBadAnswers+=1
+                        print(self.userBadAnswers)"""
+                    #self.userAvatar = i
+                    print(otvet)
 
 
     def drawState7(self):
         # Игра Подбери маску
         text = "Игра Подбери маску"
         color = arcade.color.WHITE
-        text_size = 44
-        x = self.SCREEN_WIDTH // 3
-        y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 5
+        text_size = 38
+        x = self.SCREEN_WIDTH // 2.7
+        y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 12
         arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font_title)
+
+        self.imgAvatars.sprite_list[self.userAvatar].center_x = self.imgAvatars.sprite_list[self.userAvatar].width
+        self.imgAvatars.sprite_list[self.userAvatar].center_y = self.SCREEN_HEIGHT - self.imgAvatars.sprite_list[self.userAvatar].height
+        self.imgAvatars.sprite_list[self.userAvatar].draw()
+
+        
+        text = "Какое настроение у мальчика с картинки?"
+        files1 = os.listdir(self.detectivePath4)
+        color = arcade.color.WHITE
+        text_size = 33
+        x = self.SCREEN_WIDTH // 4.2
+        y = self.SCREEN_HEIGHT  - self.SCREEN_HEIGHT // 6
+        arcade.draw_text(text,x, y,color, text_size, anchor_y = "center",font_name = self.font_title)
+
+        self.aboutLogo2.center_x = self.SCREEN_WIDTH // 2
+        self.aboutLogo2.center_y = y - self.aboutLogo2.height // 1.5
+        self.aboutLogo2.draw()
+
+
+        files = os.listdir(self.detectivePath5)
+
+        self.imgMaskes = arcade.SpriteList()
+
+        for i in files:
+            self.imgMask = arcade.Sprite(self.detectivePath5+i, 1)
+            self.imgMask.width = 100
+            self.imgMask.height = 100
+            self.imgMask.center_x = 0
+            self.imgMask.center_y = 0
+            self.imgMaskes.append(self.imgMask)
+
+        #self.imgAvatars.draw()
+        # Вывод конкретного спрайта
+        w=self.imgMaskes.sprite_list[1].width
+        h=self.imgMaskes.sprite_list[1].height
+        counter = 2
+        s = 20
+        x = self.SCREEN_WIDTH // 2 - (counter * w) //2
+        y = self.SCREEN_HEIGHT // 6
+        for i in range(0,len(self.imgMaskes.sprite_list)):
+            self.imgMaskes.sprite_list[i].center_x = x
+            x += w + s
+            self.imgMaskes.sprite_list[i].center_y = y
+            counter -=1
+            if counter <=0:
+                counter = 1
+                x = self.SCREEN_WIDTH // 2 - (counter * w) // 2
+                #y += h + s
+
+            self.imgMaskes.sprite_list[i].draw()
+            # Определяем попадание курсора на аватар
+            bottom =self.mouseY > self.imgMaskes.sprite_list[i].center_y - self.imgMaskes.sprite_list[i].height // 2
+            top = self.mouseY < self.imgMaskes.sprite_list[i].center_y + self.imgMaskes.sprite_list[i].height // 2
+
+            left = self.mouseX > self.imgMaskes.sprite_list[i].center_x - self.imgMaskes.sprite_list[i].width // 2
+            right = self.mouseX < self.imgMaskes.sprite_list[i].center_x + self.imgMaskes.sprite_list[i].width // 2
+
+            if (bottom and top) and (left and right):
+                arcade.draw_rectangle_outline(self.imgMaskes.sprite_list[i].center_x,self.imgMaskes.sprite_list[i].center_y,self.imgMaskes.sprite_list[i].width,self.imgMaskes.sprite_list[i].height,color=arcade.color.RED)
+                if self.isMouseDown:
+                    #self.userAvatar = i
+                    print('всё ок')
 
     def drawState8(self):
         # Игра Пятнашки
